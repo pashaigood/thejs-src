@@ -1,0 +1,10 @@
+global.body_cut = function(function_data, prefix, postfix) {
+    var function_body = function_data
+                        .toString()
+                        .replace(/^function[\s\S]*?{/, '')
+                        .replace(/}$/, '');
+    prefix = prefix ? prefix + "\n" : '';
+    postfix = postfix ? postfix + "\n" : '';
+    
+    return prefix + function_body + postfix;
+}

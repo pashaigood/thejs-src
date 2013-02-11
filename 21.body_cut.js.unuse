@@ -1,0 +1,12 @@
+function body_cut(function_data, prefix, postfix) {
+    var function_body = function_data
+                        .toString()
+                        .replace(/^.*?\{/, '')
+                        .replace(/}$/, '');
+
+console.log(1)
+    prefix = prefix ? prefix + "\n" : '';
+    postfix = postfix ? postfix + "\n" : '';
+    
+    return prefix + function_body + postfix;
+}
