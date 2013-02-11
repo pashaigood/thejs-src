@@ -1,5 +1,4 @@
 global.namespace = function (ns, module) {
-    
     var path = ns.split('.'),
         l = path.length,
         i = 0,
@@ -16,8 +15,10 @@ global.namespace = function (ns, module) {
     if (module.require !== undefined) {
         
         module.require.push(function() {
+            delete module.require;
+            
             for (class_name in module) {
-                
+                if (!module.hasOwnProperty(class_name)) continue;
                 class_factory(module, class_name);
                 parent[path[l-1]] = parent[path[l-1]] || {};
                 parent[path[l-1]][class_name] = module[class_name];
@@ -25,9 +26,9 @@ global.namespace = function (ns, module) {
         });
         
         include.apply(global, module.require);
-        delete module.require;
     } else {
         for (class_name in module) {
+            if (!module.hasOwnProperty(class_name)) continue;
             class_factory(module, class_name);
             parent[path[l-1]] = parent[path[l-1]] || {};
             parent[path[l-1]][class_name] = module[class_name];

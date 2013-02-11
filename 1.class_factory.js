@@ -15,7 +15,6 @@ global.class_factory = function(namespace, class_name) {
     delete class_data.our;
     delete class_data.extend;
     delete class_data[class_name];
-    
     class_constructor.prototype = class_data;
     class_constructor.prototype.constructor = class_constructor;
     
