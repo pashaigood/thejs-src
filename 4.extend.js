@@ -1,4 +1,4 @@
-global.extend = function(Child, Parent) {
+the.extend = function(Child, Parent) {
     var proto = Child.prototype, 
         prop,
         F = function() {};
@@ -16,10 +16,10 @@ global.extend = function(Child, Parent) {
         Child.prototype._supers.push(Parent);
     }
     
-    Child.prototype.Super = extend.Super; 
+    Child.prototype.Super = the.extend.Super; 
 };
 
-extend.Super = function() {
+the.extend.Super = function() {
     var length = this._supers.length;
     while(--length > -1) {
         this._supers[length].apply(this, arguments);

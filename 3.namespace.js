@@ -39,7 +39,7 @@ global.namespace = function (ns, module) {
 namespace.create_module = function(module, parent, path, length) {
     for (var class_name in module) {
         if (!module.hasOwnProperty(class_name)) continue;
-        class_factory(module, class_name);
+        the.class_factory(module, class_name);
         parent[path[length-1]] = parent[path[length-1]] || {};
         parent[path[length-1]][class_name] = module[class_name];
     }

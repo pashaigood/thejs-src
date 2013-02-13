@@ -1,19 +1,18 @@
-var child_number = 1;
-
-Object.prototype.children = {length:0};
-Object.prototype._id = {};
-
-Object.prototype.addChild = function(child){
+function Container(){};
+Container.child_number = 1;
+Container.prototype.children = {length:0};
+Container.prototype._id = {};
+Container.prototype.addChild = function(child){
     var self = this;
     if(!child._id)
-        child._id = child_number++;
+        child._id = Container.child_number++;
     
     self.children[child._id] = child._id;
     self.children.length+=1;
     child.parent = self;
 };
 
-Object.prototype.removeChild = function(child){
+Container.prototype.removeChild = function(child){
     var self = this;
     if( self.children[child._id] ){
         self.children[child._id].parent = undefined;

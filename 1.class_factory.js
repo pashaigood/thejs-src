@@ -1,4 +1,4 @@
-global.class_factory = function(namespace, class_name) {
+the.class_factory = function(namespace, class_name) {
     var class_constructor = namespace[class_name][class_name],
         class_data = namespace[class_name],
         class_extend = class_data.extend,
@@ -22,7 +22,7 @@ global.class_factory = function(namespace, class_name) {
         length = class_extend.length;
         
         while (length--) {
-            extend(class_constructor, class_extend[length]);
+            the.extend(class_constructor, class_extend[length]);
         }
     }
     

@@ -5,10 +5,11 @@
     }*/
 (function() {
     var scripts = document.getElementsByTagName('script'),
-        path = scripts[scripts.length-1].src.split('?')[0];
-        global.URL = path.split('/').slice(0, -1).join('/')+'/';
+        script = scripts[scripts.length-1],
+        path = script.src.split('?')[0];
+        global.URL = script.getAttribute('path') || path.split('/').slice(0, -1).join('/')+'/';
         // for debuging just uncomment
-        global.URL += '../';
+        // global.URL += '../';
         
     function start_point(e)
     {

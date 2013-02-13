@@ -1,1 +1,1 @@
-var global = window || global;
+var global = window || global, the = {};
