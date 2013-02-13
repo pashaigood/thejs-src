@@ -10,5 +10,19 @@ global.extend = function(Child, Parent) {
     for (prop in proto) {
         Child.prototype[prop] = proto[prop];
     }
-    Child.superclass = Parent.prototype;
+    
+    if (typeof(Parent) == 'function') {
+        Child.prototype._supers = Child.prototype._supers || [];
+        Child.prototype._supers.push(Parent);
+    }
+    
+    Child.prototype.Super = extend.Super; 
 };
+
+extend.Super = function() {
+    var length = this._supers.length;
+    while(--length > -1) {
+        this._supers[length].apply(this, arguments);
+    }
+};
+

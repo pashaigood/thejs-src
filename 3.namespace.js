@@ -11,27 +11,36 @@ global.namespace = function (ns, module) {
         parent = parent[path[i]];
     }
     
-    
-    if (module.require !== undefined) {
+    if (typeof(module) == 'function') {
+        var requires = module.toString()
+            .replace(/\s/g, '')
+            .match(/require\s*:\s*\[(.*?)\]/)[1].split(',');
         
+        requires.push(function() {
+           module = module();
+           delete module.require;
+           namespace.create_module(module, parent, path, l); 
+        });
+        
+        include.apply(global, requires);
+    } else if (module.require !== undefined) {
         module.require.push(function() {
             delete module.require;
             
-            for (class_name in module) {
-                if (!module.hasOwnProperty(class_name)) continue;
-                class_factory(module, class_name);
-                parent[path[l-1]] = parent[path[l-1]] || {};
-                parent[path[l-1]][class_name] = module[class_name];
-            }
+           namespace.create_module(module, parent, path, l); 
         });
         
         include.apply(global, module.require);
     } else {
-        for (class_name in module) {
-            if (!module.hasOwnProperty(class_name)) continue;
-            class_factory(module, class_name);
-            parent[path[l-1]] = parent[path[l-1]] || {};
-            parent[path[l-1]][class_name] = module[class_name];
-        }
+        namespace.create_module(module, parent, path, l); 
     }
 };
+
+namespace.create_module = function(module, parent, path, length) {
+    for (var class_name in module) {
+        if (!module.hasOwnProperty(class_name)) continue;
+        class_factory(module, class_name);
+        parent[path[length-1]] = parent[path[length-1]] || {};
+        parent[path[length-1]][class_name] = module[class_name];
+    }
+}

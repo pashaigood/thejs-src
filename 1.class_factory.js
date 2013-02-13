@@ -5,7 +5,6 @@ global.class_factory = function(namespace, class_name) {
         static_property = class_data.our,
         prop,
         length;
-    
     if (static_property) {
         for (prop in static_property) {
             class_constructor[prop] = static_property[prop];
@@ -21,6 +20,7 @@ global.class_factory = function(namespace, class_name) {
     
     if (class_extend) {
         length = class_extend.length;
+        
         while (length--) {
             extend(class_constructor, class_extend[length]);
         }

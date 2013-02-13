@@ -7,8 +7,9 @@
     var scripts = document.getElementsByTagName('script'),
         path = scripts[scripts.length-1].src.split('?')[0];
         global.URL = path.split('/').slice(0, -1).join('/')+'/';
-        //for debuging
-        // global.URL += '../';
+        // for debuging just uncomment
+        global.URL += '../';
+        
     function start_point(e)
     {
         if(start_point.onse) {
