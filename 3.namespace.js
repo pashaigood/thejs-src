@@ -1,12 +1,12 @@
-global.namespace = function (ns, module) {
-    var path = ns.replace(/\//g, '.').split('.'),
+global.namespace = global.ns = function (ns_name, module) {
+    var path = ns_name.replace(/\//g, '.').split('.'),
         l = path.length,
-        i = 0,
+        i,
         parent = global,
         class_name,
         class_constructor;
     
-    for (i; i < l - 1; i++) {
+    for (i = 0; i < l - 1; i++) {
         parent[path[i]] = parent[path[i]] || {};
         parent = parent[path[i]];
     }
@@ -19,7 +19,7 @@ global.namespace = function (ns, module) {
         requires.push(function() {
            module = module();
            delete module.require;
-           namespace.create_module(module, parent, path, l); 
+           ns.create_module(module, parent, path, l); 
         });
         
         include.apply(global, requires);
@@ -27,16 +27,16 @@ global.namespace = function (ns, module) {
         module.require.push(function() {
             delete module.require;
             
-           namespace.create_module(module, parent, path, l); 
+           ns.create_module(module, parent, path, l); 
         });
         
         include.apply(global, module.require);
     } else {
-        namespace.create_module(module, parent, path, l); 
+        ns.create_module(module, parent, path, l); 
     }
 };
 
-namespace.create_module = function(module, parent, path, length) {
+ns.create_module = function(module, parent, path, length) {
     for (var class_name in module) {
         if (!module.hasOwnProperty(class_name)) continue;
         the.class_factory(module, class_name);

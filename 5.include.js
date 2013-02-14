@@ -2,8 +2,16 @@ global.include = function() {
     var args = arguments,
         cnt = args.length - 1,
         path;
+    if (cnt < 0) {
+        return;
+    }
     
     if(typeof(args[cnt]) == 'function') {
+        if (! cnt) {
+            args[cnt]();
+            return;
+        }
+        
         include.data.funcs.push(args[cnt]); 
     }
     
