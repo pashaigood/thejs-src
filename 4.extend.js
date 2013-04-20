@@ -1,22 +1,29 @@
-the.extend = function(Child, Parent) {
-    var proto = Child.prototype, 
-        prop,
-        F = function() {};
+the.extend = function(Child, Parent, as_object) {
+    
+    if (! as_object && typeof(Child) == typeof(Parent) && typeof(Parent) == 'function') {
+        var proto = Child.prototype, 
+            prop,
+            F = function() {};
+            
+        F.prototype = Parent.prototype;
+        Child.prototype = new F();
+        Child.prototype.constructor = Child;
         
-    F.prototype = Parent.prototype;
-    Child.prototype = new F();
-    Child.prototype.constructor = Child;
-    
-    for (prop in proto) {
-        Child.prototype[prop] = proto[prop];
+        for (prop in proto) {
+            Child.prototype[prop] = proto[prop];
+        }
+        
+        if (typeof(Parent) == 'function') {
+            Child.prototype._supers = Child.prototype._supers || [];
+            Child.prototype._supers.push(Parent);
+        }
+        
+        Child.prototype.Super = the.extend.Super; 
+    } else {
+        for(var property in Parent) {
+            Child[property] = Parent[property];
+        }
     }
-    
-    if (typeof(Parent) == 'function') {
-        Child.prototype._supers = Child.prototype._supers || [];
-        Child.prototype._supers.push(Parent);
-    }
-    
-    Child.prototype.Super = the.extend.Super; 
 };
 
 the.extend.Super = function() {
