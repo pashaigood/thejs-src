@@ -18,27 +18,12 @@ global.namespace = global.ns = function (ns_name, module) {
     }
     
     the.cut;
-    //if namespace require libs
-    if (typeof(module) == 'function') {
-        var requires = module.toString()
-            .replace(/\s/g, '')
-            .match(/require\s*:\s*\[(.*?)\]/)
-        requires = requires ?  requires[1].replace(/['"]/g, '').split(',') : [];
-        requires.push(function() {
-           module = module();
-           delete module.require;
-           ns.cns(module, parent, path, l); 
-        });
-        
-        include.apply(global, requires);
-        return;
-    } else if (module.require !== undefined) {
-        module.require.push(function() {
-            delete module.require;
-           ns.cns(module, parent, path, l); 
-        });
-        
-        include.apply(global, module.require);
+    if (module.require != undefined) {
+        var require = module.require;
+        delete module.require;
+        require.push(function() {});
+        ns.cns(module, parent, path, l); 
+        include.apply(global, require);
         return;
     }
     the.cut;
@@ -81,5 +66,12 @@ ns.cns = function(module, parent, path, length) {
          
         parent[path[length-1]] = parent[path[length-1]] || {};
         parent[path[length-1]][class_name] = module[class_name];
+        // if (ns.first) {
+            // // console.log(module[class_name])
+            // new module[class_name]();
+            // ns.first = false;
+        // }
     }
 }
+
+ns.first = true;

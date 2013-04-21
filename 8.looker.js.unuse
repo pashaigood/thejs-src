@@ -1,0 +1,41 @@
+the.cut;
+the.looker = function(url) {
+    var request = the.looker.getXmlHttp(),
+        requires = false;
+    // request.onreadystatechange = function() {
+        // console.log(1);
+    // }
+    
+    request.open('GET', url, false); 
+    request.send(null);
+    
+    if(request.status == 200) {
+        requires = request.responseText
+            .replace(/\s/g, '')
+            .match(/require\s*:\s*\[(.*?)\]/);
+        requires = requires ?  requires[1].replace(/['"]/g, '').split(',') : false;
+        // console.log(requires);
+      // console.log(request.responseText);
+    }
+    
+    return requires;
+}
+
+the.looker.getXmlHttp = function() {
+      var xmlhttp;
+      try {
+        xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+      } catch (e) {
+        try {
+          xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        } catch (E) {
+          xmlhttp = false;
+        }
+      }
+      if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
+        xmlhttp = new XMLHttpRequest();
+      }
+      return xmlhttp;
+}
+
+the.cut;

@@ -1,7 +1,8 @@
-global.include = function() {
+global.include = the.js = function() {
     var args = arguments,
         cnt = args.length - 1,
-        path;
+        path,
+        sub_requires;
     if (cnt < 0) {
         return;
     }
@@ -12,20 +13,27 @@ global.include = function() {
             return;
         }
         
-        include.data.funcs.push(args[cnt]); 
+        include.data.funcs.push(Array.prototype.pop.call(args)); 
     }
     
-    for(var i=0; i < cnt; i++) {
-        path = arguments[i];
-        if (include.data.cache[path]) {
-            continue;
+    var script = Array.prototype.shift.call(args);
+    
+    //TODO: make full sync script upload
+    if (script) {
+        if (include.data.cache[script]) {
+            return;
         }
         include.data.start += 1;
-        include.data.cache[path] = 1;
+        include.data.cache[script] = 1;
         
         create_script(
-            URL + path.replace(/\./ig, '/') + '.js',
-            include.data.callback,
+            URL + script.replace(/\./ig, '/') + '.js',
+            function() {
+                if (args.length) {
+                    include.apply(global, args);
+                }
+                include.data.callback();
+            },
             include.data.callback
         );
     }
