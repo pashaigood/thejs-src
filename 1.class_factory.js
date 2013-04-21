@@ -5,6 +5,7 @@ the.class_factory = function(namespace, class_name) {
         static_property = class_data.our,
         prop,
         length;
+
     if (static_property) {
         for (prop in static_property) {
             class_constructor[prop] = static_property[prop];
@@ -25,6 +26,15 @@ the.class_factory = function(namespace, class_name) {
             the.extend(class_constructor, class_extend[length]);
         }
     }
+    
+    // the.cut;
+        // class_constructor.prototype.log = function() {
+            // var log = {};
+            // the.extend( log, this);
+            // console.log(class_path + '.' + class_name, log);
+        // }
+    // the.cut;
+
     
     namespace[class_name] = class_constructor;
 };

@@ -4,16 +4,16 @@ function create_script(path, callback, on_error) {
         width_error = width_error || true;
     scr.type = "text/javascript";
     scr.src = path;
+    the.cut;
+    scr.src = path + "?rand=" + Math.round(Math.random() * 10000 * 10000);
+    the.cut;
     scr.done = false;
     
     scr.onload = scr.onreadystatechange = function() {
       if ( !scr.done && (!global.readyState ||
                 global.readyState === "loaded" || global.readyState === "complete") ) {
             scr.done = true;
-//          jQuery.handleSuccess( s, xhr, status, data );
-//          jQuery.handleComplete( s, xhr, status, data );
             callback();
-            // Handle memory leak in IE
             scr.onload = scr.onreadystatechange = null;
         }
     };

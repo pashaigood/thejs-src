@@ -22,8 +22,8 @@ global.namespace = global.ns = function (ns_name, module) {
     if (typeof(module) == 'function') {
         var requires = module.toString()
             .replace(/\s/g, '')
-            .match(/require\s*:\s*\[(.*?)\]/)[1].replace(/['"]/g, '').split(',');
-        
+            .match(/require\s*:\s*\[(.*?)\]/)
+        requires = requires ?  requires[1].replace(/['"]/g, '').split(',') : [];
         requires.push(function() {
            module = module();
            delete module.require;
@@ -58,24 +58,28 @@ ns.cns = function(module, parent, path, length) {
     for (var class_name in module) {
         if (!module.hasOwnProperty(class_name)) continue;
         
-        the.class_factory(module, class_name);
+        if (
+            typeof(module[class_name]) == 'object'
+                &&
+            module[class_name][class_name]
+        ) {
+            the.class_factory(module, class_name, path.join('.'));
+        }
+        
+        the.cut; 
+        if (module[class_name].prototype) {
+            module[class_name].prototype.log = function() {
+                var temp = {};
+                the.extend(temp, this)
+                console.group(path.join('.') + '.' + class_name);
+                console.log(temp);
+                console.groupEnd();
+                temp = undefined;
+            }
+        }
+        the.cut;
+         
         parent[path[length-1]] = parent[path[length-1]] || {};
-        
-        the.cut;
-        //super kostil
-        var test;
-        var str_path = path.join('.') + "." + class_name;
-        var function_body = str_path + " = function() {" +
-            "the.extend(this, new this.constructor(arguments))}; " +
-            str_path + ".toString = function() {return '" + str_path + "'};" +
-            "return " + str_path;
-        var temp = Function(function_body );
-        test = temp();
-        test.prototype.constructor = module[class_name];
-        the.extend(test, module[class_name], true);
-        module[class_name] = test;
-        the.cut;
-        
         parent[path[length-1]][class_name] = module[class_name];
     }
 }

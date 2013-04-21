@@ -1,35 +1,51 @@
-the.extend = function(Child, Parent, as_object) {
+the.extend = function(Child, Parent, as_object/*, no_super*/) {
     
-    if (! as_object && typeof(Child) == typeof(Parent) && typeof(Parent) == 'function') {
+    if (
+        ! as_object
+            &&
+        typeof(Child) == typeof(Parent) 
+            &&
+        typeof(Parent) == 'function'
+    ) {
         var proto = Child.prototype, 
             prop,
             F = function() {};
             
         F.prototype = Parent.prototype;
         Child.prototype = new F();
-        Child.prototype.constructor = Child;
-        
         for (prop in proto) {
+            if (prop == 'Super') {
+                continue;
+            }
             Child.prototype[prop] = proto[prop];
         }
+        Child.prototype.constructor = Child;
+
         
-        if (typeof(Parent) == 'function') {
-            Child.prototype._supers = Child.prototype._supers || [];
-            Child.prototype._supers.push(Parent);
+        Child._supers = Child._supers || [];
+        Child._supers.push(Parent);
+        
+        Child.prototype.Super = function() {
+            for (var parent in Child._supers) {
+                if (! Child._supers.hasOwnProperty(parent)) continue;
+                this.Super = Child._supers[parent].prototype.Super; 
+                Child._supers[parent].apply(this, arguments);
+            }
+            
+            this.Super = function(){};
         }
-        
-        Child.prototype.Super = the.extend.Super; 
     } else {
-        for(var property in Parent) {
-            Child[property] = Parent[property];
-        }
+          for (var i in Parent) {
+            if (Parent[i] && typeof Parent[i] == "object") {
+              Child[i] = {};
+              the.extend(Child[i], Parent[i], true);
+            } else Child[i] = Parent[i]
+          }
+        
+        // for(var property in Parent) {
+            // Child[property] = Parent[property];
+        // }
     }
 };
 
-the.extend.Super = function() {
-    var length = this._supers.length;
-    while(--length > -1) {
-        this._supers[length].apply(this, arguments);
-    }
-};
 
