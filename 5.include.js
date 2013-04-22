@@ -3,6 +3,7 @@ global.include = the.js = function() {
         cnt = args.length - 1,
         path,
         sub_requires;
+        
     if (cnt < 0) {
         return;
     }
@@ -17,10 +18,10 @@ global.include = the.js = function() {
     }
     
     var script = Array.prototype.shift.call(args);
-    
     //TODO: make full sync script upload
     if (script) {
         if (include.data.cache[script]) {
+            include.apply(global, args);
             return;
         }
         include.data.start += 1;

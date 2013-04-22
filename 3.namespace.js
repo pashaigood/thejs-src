@@ -21,8 +21,9 @@ global.namespace = global.ns = function (ns_name, module) {
     if (module.require != undefined) {
         var require = module.require;
         delete module.require;
-        require.push(function() {});
-        ns.cns(module, parent, path, l); 
+        require.push(function() {
+            ns.cns(module, parent, path, l); 
+        });
         include.apply(global, require);
         return;
     }
@@ -66,12 +67,5 @@ ns.cns = function(module, parent, path, length) {
          
         parent[path[length-1]] = parent[path[length-1]] || {};
         parent[path[length-1]][class_name] = module[class_name];
-        // if (ns.first) {
-            // // console.log(module[class_name])
-            // new module[class_name]();
-            // ns.first = false;
-        // }
     }
 }
-
-ns.first = true;

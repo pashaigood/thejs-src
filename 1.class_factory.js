@@ -17,7 +17,9 @@ the.class_factory = function(namespace, class_name) {
     delete class_data[class_name];
     
     class_constructor.prototype = class_data;
-    class_constructor.prototype.constructor = class_constructor;
+    class_constructor.prototype.constructor 
+        = class_constructor.prototype.our
+        = class_constructor;
     
     if (class_extend) {
         length = class_extend.length;
@@ -26,15 +28,5 @@ the.class_factory = function(namespace, class_name) {
             the.extend(class_constructor, class_extend[length]);
         }
     }
-    
-    // the.cut;
-        // class_constructor.prototype.log = function() {
-            // var log = {};
-            // the.extend( log, this);
-            // console.log(class_path + '.' + class_name, log);
-        // }
-    // the.cut;
-
-    
     namespace[class_name] = class_constructor;
 };
