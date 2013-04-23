@@ -20,7 +20,7 @@ the.class_factory = function(namespace, class_name) {
     class_constructor.prototype.constructor 
         = class_constructor.prototype.our
         = class_constructor;
-    
+        
     if (class_extend) {
         length = class_extend.length;
         
@@ -28,5 +28,6 @@ the.class_factory = function(namespace, class_name) {
             the.extend(class_constructor, class_extend[length]);
         }
     }
+    
     namespace[class_name] = class_constructor;
 };

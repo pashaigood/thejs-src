@@ -24,7 +24,6 @@ the.extend = function(Child, Parent, as_object/*, no_super*/) {
         
         Child._supers = Child._supers || [];
         Child._supers.push(Parent);
-        
         Child.prototype.Super = function() {
             for (var parent in Child._supers) {
                 if (! Child._supers.hasOwnProperty(parent)) continue;
