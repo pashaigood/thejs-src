@@ -7,14 +7,19 @@ function create_script(path, callback, on_error) {
     the.cut;
     scr.src = path + "?rand=" + Math.round(Math.random() * 10000 * 10000);
     the.cut;
-    scr.done = false;
     
-    scr.onload = scr.onreadystatechange = function() {
-      if ( !scr.done && (!global.readyState ||
-                global.readyState === "loaded" || global.readyState === "complete") ) {
-            scr.done = true;
+    scr.onload = scr.onreadystatechange = function(e) {
+        if (
+            ! scr.readyState
+                ||
+            (
+                scr.readyState == "loaded"
+                    ||
+                scr.readyState === "complete"
+            )
+        ) {
+            src = scr.onerror = scr.onload = scr.onreadystatechange = null;
             callback();
-            scr.onload = scr.onreadystatechange = null;
         }
     };
     scr.onerror = on_error;
