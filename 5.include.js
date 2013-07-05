@@ -1,4 +1,32 @@
 global.include = the.js = function() {
+    var start_point = Array.prototype.pop.call(arguments);
+    function run() {
+        if (document.removeEventListener) {
+            document.removeEventListener("DOMContentLoaded", run, false);
+        } else if (document.detachEvent) {
+            document.detachEvent("onreadystatechange", run);
+        }
+        start_point();
+    }
+    
+    
+    //Mozilla, Opera and webkit nightlies currently support this event
+    if ( document.addEventListener ) {
+        // Use the handy event callback
+        document.addEventListener("DOMContentLoaded", run, false);
+        // A fallback to window.onload, that will always work
+        // window.addEventListener("load", start_point, false);
+        // If IE event model is used
+    } else if ( document.attachEvent ) {
+        // ensure firing before onload,
+        // maybe late but safe also for iframes
+        document.attachEvent("onreadystatechange", run);
+        // A fallback to window.onload, that will always work
+        // window.attachEvent("onload", start_point);
+    }
+}
+the.cut;
+global.include = the.js = function() {
     var args = arguments,
         cnt = args.length - 1,
         path,
@@ -51,3 +79,4 @@ include.data.callback = function() {
         }
     }
 };
+the.cut

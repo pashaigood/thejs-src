@@ -1,1 +1,1 @@
-java -jar /home/compiler/compiler.old.jar --js *.js --js_output_file ../the.js --compilation_level WHITESPACE_ONLY 
+java -jar /home/compiler/compiler.old.jar --js *.js --js_output_file release/the.js --compilation_level WHITESPACE_ONLY
