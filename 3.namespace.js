@@ -17,6 +17,10 @@ global.namespace = global.ns = function (ns_name, module) {
         parent = parent[path[i]];
     }
     
+    if (! module) {
+        return parent[path[i]];
+    }
+    
     the.cut;
     if (module.require != undefined) {
         var require = module.require;

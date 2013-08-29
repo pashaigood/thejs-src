@@ -1,6 +1,6 @@
-the.class_factory = function(namespace, class_name) {
-    var class_constructor = namespace[class_name][class_name],
-        class_data = namespace[class_name],
+the.class_factory = function(namespace_src, class_name) {
+    var class_constructor = namespace_src[class_name][class_name],
+        class_data = namespace_src[class_name],
         class_extend = class_data.extend,
         static_property = class_data.our,
         prop,
@@ -25,9 +25,13 @@ the.class_factory = function(namespace, class_name) {
         length = class_extend.length;
         
         while (length--) {
+            if (typeof class_extend[length] == 'string') {
+                class_extend[length] = namespace(class_extend[length])
+            }
+            
             the.extend(class_constructor, class_extend[length]);
         }
     }
     
-    namespace[class_name] = class_constructor;
+    namespace_src[class_name] = class_constructor;
 };
