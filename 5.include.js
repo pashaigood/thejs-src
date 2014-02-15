@@ -55,7 +55,7 @@ global.include = the.js = function() {
         include.data.start += 1;
         include.data.cache[script] = 1;
         create_script(
-            URL + script.replace(/\./ig, '/') + '.js',
+            APP_PATH + script.replace(/\./ig, '/') + '.js',
             function() {
                 if (args.length) {
                     include.apply(global, args);

@@ -10,7 +10,7 @@ function start_point() {
         var head_element = document.getElementsByTagName("head")[0],
             scr = document.createElement('script');
         scr.type="text/javascript";
-        scr.src=URL+"index.js";
+        scr.src=APP_PATH+"index.js";
         head_element.appendChild(scr);
     }
     

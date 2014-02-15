@@ -1,0 +1,1 @@
+java -jar compiler/compiler.jar --js *.js --js_output_file release/the.js --compilation_level WHITESPACE_ONLY
